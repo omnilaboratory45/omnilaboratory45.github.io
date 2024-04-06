@@ -11,13 +11,14 @@
 
             function getFullLink(alias) {
                 fetch('./static/links.json')
-                .then(res => res.json()["links"])
+                .then(res => res.json().data)
                 .then(data => {
-                    if (!(alias in data)) {
+                    const links = data["links"]
+                    if (!(alias in links)) {
                         return null;
                     }
                     /** @type {string} */
-                    const link = data[alias];
+                    const link = links[alias];
                     if (link.startsWith("https://") || link.startsWith("http://")) {
                         return link;
                     } else {
