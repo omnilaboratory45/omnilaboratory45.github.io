@@ -43,7 +43,8 @@
             }
 
             // redirect(getAlias());
-            document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${await getFullLink(getAlias())}`
+            let link = await getFullLink(getAlias())
+            document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${link}`
         </script>
         <title>Page Redirection</title>
     </head>
