@@ -10,32 +10,36 @@
             }
 
             function getFullLink(alias) {
-                fetch('./static/links.json')
-                .then(res => res.json())
-                .then(data => {
-                    const links = data["links"]
-                    if (!(alias in links)) {
-                        return null;
-                    }
-                    /** @type {string} */
-                    const link = links[alias];
-                    if (link.startsWith("https://") || link.startsWith("http://")) {
-                        return link;
-                    } else {
-                        return link;
-                    }
-                });
+                return fetch('./static/links.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        const links = data["links"];
+                        if (!(alias in links)) {
+                            return null;
+                        }
+                        /** @type {string} */
+                        const link = links[alias];
+                        if (link.startsWith("https://") || link.startsWith("http://")) {
+                            return link;
+                        } else {
+                            return link;
+                        }
+                    }).catch(err => {
+                            return null;
+                        }
+                    );
             }
 
             function redirect(alias) {
-                let link = getFullLink(alias);
-                if (link == null) {
-                    link = "/";
-                    // return whenFailed();
-                }
-                window.location.href = link;
-                const message = `If you are not redirected automatically, follow this <a href="${link}">link</a>.`;
-                document.getElementById("redirect").innerHTML = message;
+                getFullLink(alias).then(link => {
+                    if (link == null) {
+                        link = "/";
+                        // return whenFailed();
+                    }
+                    window.location.href = link;
+                    const message = `If you are not redirected automatically, follow this <a href="${link}">link</a>.`;
+                    document.getElementById("redirect").innerHTML = message;
+                });
             }
 
             function whenFailed() {
