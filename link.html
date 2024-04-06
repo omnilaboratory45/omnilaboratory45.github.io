@@ -42,13 +42,8 @@
                 });
             }
 
-            function whenFailed() {
-                const message = `Unknown alias. If you want to see index of this website, go ahead <a href=".">here</a>.`
-                document.getElementById("redirect").innerHTML = message;
-            }
-
             // redirect(getAlias());
-            document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${getFullLink(getAlias())}`
+            document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${await getFullLink(getAlias())}`
         </script>
         <title>Page Redirection</title>
     </head>
