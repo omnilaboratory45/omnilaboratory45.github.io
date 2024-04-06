@@ -11,7 +11,7 @@
 
             function getFullLink(alias) {
                 fetch('./static/links.json')
-                .then(res => res.json().data)
+                .then(res => res.json())
                 .then(data => {
                     const links = data["links"]
                     if (!(alias in links)) {
@@ -51,8 +51,8 @@
     <body>
         <div id="redirect">Redirecting...</div>
         <noscript>
-            Redirecting doesn't work without javascript.
-            Redirect to homepage.
+            <style> #redirect { display: none } </style>
+            Redirecting doesn't work without JavaScript. Enable JavaScript to redirect.
         </noscript>
     </body>
 </html>
