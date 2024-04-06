@@ -10,6 +10,7 @@
             }
 
             function getFullLink(alias) {
+                // return fetch('https://omnilaboratory45.github.io/static/links.json')
                 return fetch('./static/links.json')
                     .then(res => res.json())
                     .then(data => {
@@ -34,7 +35,6 @@
                 getFullLink(alias).then(link => {
                     if (link == null) {
                         link = "/";
-                        // return whenFailed();
                     }
                     window.location.href = link;
                     const message = `If you are not redirected automatically, follow this <a href="${link}">link</a>.`;
@@ -42,9 +42,10 @@
                 });
             }
 
-            // redirect(getAlias());
-            let link = await getFullLink(getAlias())
-            document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${link}`
+            redirect(getAlias());
+            // getFullLink(getAlias()).then(link => {
+            //     document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${link}`
+            // })
         </script>
         <title>Page Redirection</title>
     </head>
