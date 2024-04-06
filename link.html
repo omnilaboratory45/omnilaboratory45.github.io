@@ -11,7 +11,7 @@
 
             function getFullLink(alias) {
                 fetch('./static/links.json')
-                .then(res => res.json().data["links"])
+                .then(res => res.json()["links"])
                 .then(data => {
                     if (!(alias in data)) {
                         return null;
