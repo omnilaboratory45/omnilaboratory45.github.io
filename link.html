@@ -11,7 +11,7 @@
 
             function getFullLink(alias) {
                 fetch('./static/links.json')
-                .then(res => res.json().data)
+                .then(res => res.json().data["links"])
                 .then(data => {
                     if (!(alias in data)) {
                         return null;
@@ -27,7 +27,7 @@
             }
 
             function redirect(alias) {
-                let link = getFullLink();
+                let link = getFullLink(alias);
                 if (link == null) {
                     link = "/";
                     // return whenFailed();
@@ -38,11 +38,12 @@
             }
 
             function whenFailed() {
-                const message = `Unknown alias. If you want to see full index of this website, go ahead <a href=".">here</a>.`
+                const message = `Unknown alias. If you want to see index of this website, go ahead <a href=".">here</a>.`
                 document.getElementById("redirect").innerHTML = message;
             }
 
-            redirect(getAlias());
+            // redirect(getAlias());
+            document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${getFullLink(getAlias())}`
         </script>
         <title>Page Redirection</title>
     </head>

@@ -1,5 +1,6 @@
 {
     "links": {
-        "index": "/"
+        "index": "/",
+        "nature": "/articles/nature"
     }
 }
