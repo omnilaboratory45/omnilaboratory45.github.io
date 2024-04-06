@@ -26,14 +26,13 @@
                             return link;
                         }
                     }).catch(err => {
-                            return null;
-                        }
-                    );
+                        return null;
+                    });
             }
 
             function redirect(alias) {
                 getFullLink(alias).then(link => {
-                    if (link == null) {
+                    if (link === null) {
                         link = "/";
                     }
                     window.location.href = link;
