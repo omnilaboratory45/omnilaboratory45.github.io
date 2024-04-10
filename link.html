@@ -1,58 +1,76 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="ko-KR">
-    <head>
-        <meta charset="UTF-8">
-        <script type="text/javascript">
-            function getAlias() {
-                const urlParams = new URLSearchParams(window.location.search);
-                let alias = urlParams.get("to");
-                return alias === null ? "index" : alias;
+
+<head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript">
+        const TEST = false;
+
+        function getAlias() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let alias = urlParams.get("to");
+            return alias === null ? "index" : alias;
+        }
+
+        async function getFullLink(alias) {
+            try {
+                const fetchFrom = TEST
+                    ? "https://omnilaboratory45.github.io/static/links.json"
+                    : "./static/links.json";
+                const res = await fetch(fetchFrom);
+                const data = await res.json();
+                const links = data["links"];
+                if (!(alias in links)) {
+                    return null;
+                }
+                /** @type {string} */
+                const link = links[alias];
+                if (link.startsWith("https://") || link.startsWith("http://")) {
+                    return link;
+                } else {
+                    return link;
+                }
+            } catch {
+                return null;
+            }
+        }
+
+        async function redirect(alias) {
+            let link = await getFullLink(alias);
+            if (link === null) {
+                link = "/";
             }
 
-            function getFullLink(alias) {
-                // return fetch('https://omnilaboratory45.github.io/static/links.json')
-                return fetch('./static/links.json')
-                    .then(res => res.json())
-                    .then(data => {
-                        const links = data["links"];
-                        if (!(alias in links)) {
-                            return null;
-                        }
-                        /** @type {string} */
-                        const link = links[alias];
-                        if (link.startsWith("https://") || link.startsWith("http://")) {
-                            return link;
-                        } else {
-                            return link;
-                        }
-                    }).catch(err => {
-                        return null;
-                    });
+            if (TEST) {
+                document.getElementById(
+                    "redirect"
+                ).innerText = `Redirecting to ${getAlias()} at ${link}`;
+                return;
             }
 
-            function redirect(alias) {
-                getFullLink(alias).then(link => {
-                    if (link === null) {
-                        link = "/";
-                    }
-                    window.location.href = link;
-                    const message = `If you are not redirected automatically, follow this <a href="${link}">link</a>.`;
-                    document.getElementById("redirect").innerHTML = message;
-                });
-            }
+            window.location.href = link;
+            const message = `If you are not redirected automatically, follow this <a href="${link}">link</a>.`;
+            setTimeout(() => {
+                document.getElementById("redirect").innerHTML = message;
+            }, 300);
+        }
 
-            redirect(getAlias());
-            // getFullLink(getAlias()).then(link => {
-            //     document.getElementById("redirect").innerText = `Redirecting to ${getAlias()} at ${link}`
-            // })
-        </script>
-        <title>Page Redirection</title>
-    </head>
-    <body>
-        <div id="redirect">Redirecting...</div>
-        <noscript>
-            <style> #redirect { display: none } </style>
-            Redirecting doesn't work without JavaScript. Enable JavaScript to redirect.
-        </noscript>
-    </body>
+        redirect(getAlias());
+    </script>
+    <title>Page Redirection</title>
+</head>
+
+<body>
+    <div id="redirect">Redirecting...</div>
+    <noscript>
+        <style>
+            #redirect {
+                display: none;
+            }
+        </style>
+        Redirecting doesn't work without JavaScript. Enable JavaScript to
+        redirect.
+    </noscript>
+</body>
+
 </html>
