@@ -4,6 +4,7 @@
 
 * [자연에 관한 생각들](articles/nature.md)
 * [사회에 대한 생각들](articles/society.md)
+* [인공지능에 관한 생각](articles/ai.md)
 
 ## License
 
